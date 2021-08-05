@@ -2,16 +2,14 @@
 {% load crispy_forms_tags %}
 
 {% block content %}
-    {% block heading %}
-    {% endblock heading %}
-    <form class="form" method="post" action="/register/">
+    {% block heading %} {% endblock heading %}
+    <form method="post" class="form-group">
         <div>
             {% block form %}
                 {% csrf_token %}
                 {{ form|crispy }}
             {% endblock form %}
-            {% block button %}
-            {% endblock button %}
+            {% block button %} {% endblock button %}
         </div>
     </form>
 {% endblock content %}
