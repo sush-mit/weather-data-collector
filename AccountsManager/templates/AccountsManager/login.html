@@ -1,14 +1,14 @@
-{% extends "main/base.html" %}
+{% extends "AccountsManager/base.html" %}
 {% block title %}
 Weather: Register
 {% endblock title %}
     <body>
-        <form method="post" action="/register/">
+        <form method="post" action="/login/">
             {% block heading %}
-            <h1 class="mt-2 mb-4"> Register </h1>
+            <h1 class="mt-2 mb-4"> Login </h1>
             {% endblock heading %}
             {% block button %}
-            <button type="submit" name="register" class="btn btn-primary">Register</button>
+            <button type="submit" name="login" class="btn btn-primary">Login</button>
             {% endblock button %}
         </form>
     </body>
