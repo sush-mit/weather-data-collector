@@ -27,9 +27,15 @@
                 <li class="nav-item">
                     <a href="/register", class="nav-link active">Register</a>
                 </li>
+                {% if not user.is_authenticated %}
                 <li class="nav-item">
                     <a href="/login", class="nav-link active">Login</a>
                 </li>
+                {% else %}
+                <li class="nav-item">
+                    <a href="/logout", class="nav-link active">logout</a>
+                </li>
+                {% endif %}
             </ul>
         </nav>
 
