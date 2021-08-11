@@ -7,6 +7,7 @@ Weather: Register
 {% block heading %}
 <h1 class="mt-2 mb-4"> Register </h1>
 {% endblock heading %}
+
 {% block form %}
     {% csrf_token %}
     {% load crispy_forms_tags %}
@@ -24,6 +25,6 @@ Weather: Register
     {{ form.password2|as_crispy_field }}
 {% endblock form %}
 {% block button %}
-<button type="submit" name="register" class="btn btn-primary">Register</button>
-<p>Already have an account? <a href="/login">Login</a></p>
+  <button type="submit" name="register" class="btn btn-primary">Register</button>
+  <p>Already have an account? <a href="/login">Login</a></p>
 {% endblock button %}
