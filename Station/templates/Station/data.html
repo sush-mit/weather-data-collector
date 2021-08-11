@@ -4,13 +4,13 @@
 {%block content %}
 {% block heading %}
 <br/>
-<div class="mt-2 mb-4 h1">
+<div class="mt-2 mb-4 h1 pr-2 pl-3">
     Station Table Data
-    <a class="btn btn-info pull-right" href="/station/input"> Add New </a>
+    <a class="btn btn-info float-right" href="/station/input"> Add New </a>
 </div>
 {% endblock heading %}
 <table class="table table-hover">
-    <thead class="thead-light">
+    <thead class="thead-light text-center">
         <tr>
             <th scope="row">ID</th>
             <th scope="row">Name </th>
@@ -18,16 +18,18 @@
             <th scope="row">City</th>
             <th scope="row">Latitude</th>
             <th scope="row">Longitude</th>
+            <th></th>
         </tr>
     </thead>
         {% for item in data %}
             <tr>
-                <td> {{ item.user_id }} </td>
-                <td>{{ item.name }}</td>
-                <td>{{ item.country }}</td>
-                <td>{{ item.city }}</td>
-                <td>{{ item.latitude }}</td>
-                <td>{{ item.longitude }}</td>
+                <td class="text-center"> {{ item.id }} </td>
+                <td class="text-center">{{ item.name }}</td>
+                <td class="text-center">{{ item.country }}</td>
+                <td class="text-center">{{ item.city }}</td>
+                <td class="text-center">{{ item.latitude }}</td>
+                <td class="text-center">{{ item.longitude }}</td>
+                <td class="text-center"><a href="/station/delete/{{ item.id }}"> Delete </a></td>
             </tr>
         {% endfor %}
 </table>

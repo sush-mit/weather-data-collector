@@ -12,8 +12,14 @@ def station_input(request):
         if form.is_valid():
             form.save()
 
-            return redirect(f"/station")
+            return redirect("/station")
     else:
         form = StationInputForm()
     form = StationInputForm()
     return render(request, "Station/input.html", {"form": form})
+
+def station_delete(request, id):
+    data_to_delete = StationModel.objects.get(id=id)
+    data_to_delete.delete()
+    data = StationModel.objects.all()
+    return redirect("/station")
