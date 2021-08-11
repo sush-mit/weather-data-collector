@@ -1,0 +1,21 @@
+{% extends "main/base.html" %}
+
+{% block content %}
+    <form method="post" class="form-group">
+        <div>
+            <div class="main " id="content" name="content">
+                <div class="row justify-content-center">
+                    <div class="col-4">
+                        {% block heading %} {% endblock heading %}
+                        {% block form %}
+                            {% load crispy_forms_tags %}
+                            {% csrf_token %}
+                            {{ form|crispy }}
+                        {% endblock form %}
+                        {% block button %} {% endblock button %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+{% endblock content %}

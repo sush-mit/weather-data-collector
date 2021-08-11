@@ -33,6 +33,7 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    "Station.apps.StationConfig",
     "UserAccounts.apps.UseraccountsConfig",
     "AccountsManager.apps.AccountsmanagerConfig",
     "main.apps.MainConfig",
@@ -132,5 +133,5 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 CRISPY_TEMPLATE_PACK = "bootstrap4"
 
-LOGIN_REDIRECT_URL = f"/users/"
-LOGOUT_REDIRECT_URL = f"/login"
+LOGIN_REDIRECT_URL = "/users/"
+LOGOUT_REDIRECT_URL = "/login"
