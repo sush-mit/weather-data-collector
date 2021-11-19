@@ -24,7 +24,7 @@
             <a href="/", class="nav-link active">Home</a>
             {% if not user.is_authenticated %}
             {% else %}
-              <a href="/station", class="nav-link active">Station</a>
+              <a href="/{{ user.username }}/station", class="nav-link active">Stations</a>
             {% endif %}
           </ul>
           <ul class="nav justify-content-end">
@@ -33,6 +33,7 @@
             <a href="/login", class="nav-link active">Login</a>
           {% else %}
             <a href="/logout", class="nav-link active">logout</a>
+            <a href="/{{ user.username }}", class="nav-link active">Profile</a>
           {% endif %}
           </ul>
         </nav>
