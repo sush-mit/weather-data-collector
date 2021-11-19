@@ -1,6 +1,6 @@
 from django import forms
   
-from .models import StationModel
+from .models import Station
   
 class StationInputForm(forms.ModelForm):
 
@@ -9,6 +9,3 @@ class StationInputForm(forms.ModelForm):
     city = forms.CharField(max_length=200)
     latitude = forms.CharField(max_length=200)
     longitude = forms.CharField(max_length=200)
-    class Meta:
-        model = StationModel
-        fields = "__all__"

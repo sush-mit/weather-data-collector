@@ -1,5 +1,5 @@
 {% extends "Station/base.html" %}
-{% block title %} Stations {% endblock title %}
+{% block title %} Station {% endblock title %}
 
 {%block content %}
 {% block heading %}
@@ -7,7 +7,7 @@
 <div class="mt-2 mb-4 h1 pr-2 pl-3">
     Stations
     {% if user.is_authenticated %}
-      <a class="btn btn-info float-right" href="/{{ user.username }}/station/input"> Add New </a>
+      <a class="btn btn-info float-right" href="/{{ user.username }}/stations/input"> Add New </a>
     {% endif %}
 </div>
 {% endblock heading %}
@@ -33,12 +33,12 @@
                 <td class="text-center">{{ item.city }}</td>
                 <td class="text-center">{{ item.latitude }}</td>
                 <td class="text-center">{{ item.longitude }}</td>
-                <td class="text-center">10/11/2021</td>
-                <td class="text-center">10/11/2021</td>
+                <td class="text-center">{{ item.date_created.date }}</td>
+                <td class="text-center">{{ item.date_updated.date }}</td>
                 <td class="text-center">
-                  <a href="/station/edit/{{ item.id }}"> Edit </a>
+                  <a href="/stations/edit/{{ item.id }}"> Edit </a>
                   /
-                  <a href="/{{ user.username }}/station/delete/{{ item.id }}"> Delete </a>
+                  <a href="/{{ user.username }}/stations/delete/{{ item.id }}"> Delete </a>
                 </td>
             </tr>
         {% endfor %}
