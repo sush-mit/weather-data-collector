@@ -18,4 +18,4 @@ class Station(models.Model):
       return self.name
     
     def get_absolute_url(self):
-        return reverse("station_data", args=(self.name, ))
+        return reverse("station_data", args=(self.user.username, ))
