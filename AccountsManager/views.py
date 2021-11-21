@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect
 from .forms import RegisterForm
 
+
 def register(request):
     if request.method == "POST":
         form = RegisterForm(request.POST)
@@ -11,4 +12,4 @@ def register(request):
     else:
         form = RegisterForm()
 
-    return render(request, "AccountsManager/register.html", {"form":form})
+    return render(request, "AccountsManager/register.html", {"form": form})
