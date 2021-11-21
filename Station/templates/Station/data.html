@@ -36,9 +36,9 @@
                 <td class="text-center">{{ item.date_created.date }}</td>
                 <td class="text-center">{{ item.date_updated.date }}</td>
                 <td class="text-center">
-                  <a href="/stations/edit/{{ item.id }}"> Edit </a>
+                  <a href="/stations/{{ item.id }}/edit"> Edit </a>
                   /
-                  <a href="/{{ user.username }}/stations/{{ item.id }}/delete"> Delete </a>
+                  <a href="/stations/{{ item.id }}/delete"> Delete </a>
                 </td>
             </tr>
         {% endfor %}
