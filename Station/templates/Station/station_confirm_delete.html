@@ -28,7 +28,7 @@
         <td class="text-center">{{ object.date_created.date }}</td>
         <td class="text-center">{{ object.date_updated.date }}</td>
   </table>
-  <form method="post">{% csrf_token %}
+  <form method="post" class="float-right pr-2">{% csrf_token %}
     <input class="btn btn-outline-danger" type="submit" value="Confirm"/>
     <a href="{% url 'station_data' %}" class="btn btn-outline-secondary">Cancel</a>
   </form>
