@@ -24,5 +24,9 @@
 </div>
 {% endblock form %}
 {% block button %}
+{% if "input" in request.path %}
     <button type="submit" name="add" class="btn btn-primary">Add</button>
+{% else %}
+    <button type="submit" name="add" class="btn btn-primary">Save</button>
+{% endif %}
 {% endblock button %}
