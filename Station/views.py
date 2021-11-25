@@ -1,25 +1,50 @@
-from django.shortcuts import render, redirect
-from .forms import StationInputForm
-from .models import StationModel
+from django.contrib.auth import login
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.views.generic import CreateView, UpdateView, DeleteView
+from django.http.response import HttpResponseForbidden
+from django.shortcuts import render
+from django.views.generic.edit import DeleteView
+from django.contrib.auth.decorators import login_required
 
+from .models import Station
+
+
+@login_required(login_url="/login/")
 def station_data(request):
-    data = StationModel.objects.all()
-    return render(request, "Station/data.html", {"data": data})
-
-def station_input(request):
-    if request.method == "POST":
-        form = StationInputForm(request.POST)
-        if form.is_valid():
-            form.save()
-
-            return redirect("/station")
+    if request.user.is_authenticated:
+        data = Station.objects.filter(user=request.user)
+        return render(request, "Station/data.html", {"data": data})
     else:
-        form = StationInputForm()
-    form = StationInputForm()
-    return render(request, "Station/input.html", {"form": form})
+        return HttpResponseForbidden()
 
-def station_delete(request, id):
-    data_to_delete = StationModel.objects.get(id=id)
-    data_to_delete.delete()
-    data = StationModel.objects.all()
-    return redirect("/station")
+
+class StationInputView(LoginRequiredMixin, CreateView):
+    model = Station
+    template_name = "Station/input.html"
+    fields = ("name", "country", "city", "latitude", "longitude")
+    login_url = "/login/"
+
+    def form_valid(self, form):
+        form.instance.user = self.request.user
+        return super().form_valid(form)
+
+
+class StationEditView(LoginRequiredMixin, UpdateView):
+    model = Station
+    template_name = "Station/input.html"
+    fields = ("name", "country", "city", "latitude", "longitude")
+    login_url = "/login/"
+
+    def form_valid(self, form):
+        form.instance.user = self.request.user
+        return super().form_valid(form)
+
+
+class StationDeleteView(LoginRequiredMixin, DeleteView):
+    model = Station
+    login_url = "/login/"
+    success_url = "/stations/"
+
+    def get_queryset(self):
+        user = self.request.user
+        return self.model.objects.filter(user=user)

@@ -2,5 +2,5 @@ from django.apps import AppConfig
 
 
 class AccountsmanagerConfig(AppConfig):
-    default_auto_field = 'django.db.models.BigAutoField'
-    name = 'AccountsManager'
+    default_auto_field = "django.db.models.BigAutoField"
+    name = "AccountsManager"
