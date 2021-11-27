@@ -5,8 +5,10 @@ from django.http.response import HttpResponseForbidden
 from django.shortcuts import render
 from django.views.generic.edit import DeleteView
 from django.contrib.auth.decorators import login_required
+from django.utils.translation import ugettext
 
-from .models import Station
+from .models import Cities, Countries, Station
+from .forms import StationInputForm
 
 
 @login_required(login_url="/login/")
@@ -20,8 +22,8 @@ def station_data(request):
 
 class StationInputView(LoginRequiredMixin, CreateView):
     model = Station
+    form_class = StationInputForm
     template_name = "Station/input.html"
-    fields = ("name", "country", "city", "latitude", "longitude")
     login_url = "/login/"
 
     def form_valid(self, form):
@@ -31,8 +33,8 @@ class StationInputView(LoginRequiredMixin, CreateView):
 
 class StationEditView(LoginRequiredMixin, UpdateView):
     model = Station
-    template_name = "Station/input.html"
-    fields = ("name", "country", "city", "latitude", "longitude")
+    form_class = StationInputForm
+    template_name = "Station/edit.html"
     login_url = "/login/"
 
     def form_valid(self, form):
@@ -48,3 +50,11 @@ class StationDeleteView(LoginRequiredMixin, DeleteView):
     def get_queryset(self):
         user = self.request.user
         return self.model.objects.filter(user=user)
+
+
+def load_cities(request):
+    country_id = request.GET.get("country_name")
+    cities = Cities.objects.filter(country_id=country_id)
+    return render(
+        request, "Station/city_dropdown_list_options.html", {"cities": cities}
+    )
