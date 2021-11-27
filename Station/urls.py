@@ -11,4 +11,7 @@ urlpatterns = [
         "stations/<int:pk>/delete/", StationDeleteView.as_view(), name="station_delete"
     ),
     path("stations/<int:pk>/edit/", StationEditView.as_view(), name="station_edit"),
+    path(
+        "stations/input/ajax/load-cities/", views.load_cities, name="ajax_load_cities"
+    ),  # <-- this one here
 ]

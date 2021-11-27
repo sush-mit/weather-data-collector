@@ -1,14 +1,26 @@
 from django import forms
-  
-from .models import StationModel
-  
-class StationInputForm(forms.ModelForm):
+from django.utils.regex_helper import flatten_result
+from .models import Countries, Cities, Station
 
-    name = forms.CharField(max_length=200, widget=forms.TextInput(attrs={'autofocus': True}))
-    country = forms.CharField(max_length=200)
-    city = forms.CharField(max_length=200)
-    latitude = forms.CharField(max_length=200)
-    longitude = forms.CharField(max_length=200)
+
+class StationInputForm(forms.ModelForm):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields["city"].queryset = Cities.objects.none()
+
+        if "country" in self.data:
+            try:
+                country_id = self.data.get("country")
+                self.fields["city"].queryset = Cities.objects.filter(
+                    country_id=country_id
+                )
+            except (ValueError, TypeError):
+                pass  # invalid input from the client; ignore and fallback to empty City queryset
+        elif self.instance.pk:
+            self.fields["city"].queryset = Cities.objects.filter(
+                country_id=self.instance.country.id
+            )
+
     class Meta:
-        model = StationModel
-        fields = "__all__"
+        model = Station
+        fields = ("name", "country", "city", "latitude", "longitude")

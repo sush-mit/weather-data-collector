@@ -9,6 +9,7 @@ def user(request, username=None):
         username = request.user.username
     return redirect(reverse("userpage", args=[username]))
 
+
 def userpage(request, username):
     if request.user.username == username:
         return render(request, "UserAccounts/userpage.html")
