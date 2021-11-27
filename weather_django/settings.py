@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/3.2/ref/settings/
 """
 
 from pathlib import Path
+import os
 
 from django.http import request
 
@@ -25,9 +26,9 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = "django-insecure-a88eixm9y4^n7v211i14_2)xg@l@&i9zqt9el44$@amdp1^hg8"
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = os.environ.get("DJANGO_DEBUG")
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['https://weather-data-collector.herokuapp.com/', '127.0.0.1']
 
 
 # Application definition
@@ -82,12 +83,12 @@ WSGI_APPLICATION = "weather_django.wsgi.application"
 
 DATABASES = {
     "default": {
-        "ENGINE": "django.db.backends.mysql",
+        "ENGINE": "django.db.backends.postgresql",
         "NAME": "weather",
         "HOST": "127.0.0.1",
-        "PORT": "3306",
-        "USER": "django",
-        "PASSWORD": "django_pass",
+        "PORT": "5432",
+        "USER": os.environ.get("DJANGO_POSTGRES_USER"),
+        "PASSWORD": os.environ.get("DJANGO_POSTGRES_PASS"),
     }
 }
 
@@ -128,6 +129,7 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.2/howto/static-files/
 
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 STATIC_URL = "/static/"
 
 # Default primary key field type

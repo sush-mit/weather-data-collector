@@ -1,6 +1,5 @@
 Django==3.2.9
-mariadb==1.0.8
 django-crispy-forms==1.13.0
-mysqlclient==2.1.0
+psycopg2==2.8.6
 gunicorn==20.1.0
 
