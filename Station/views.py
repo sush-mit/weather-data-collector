@@ -7,8 +7,9 @@ from django.views.generic.edit import DeleteView
 from django.contrib.auth.decorators import login_required
 from django.utils.translation import ugettext
 
-from .models import Cities, Countries, Station
+from .models import Station
 from .forms import StationInputForm
+from .csv_data import CSVData
 
 
 @login_required(login_url="/login/")
@@ -53,8 +54,8 @@ class StationDeleteView(LoginRequiredMixin, DeleteView):
 
 
 def load_cities(request):
-    country_id = request.GET.get("country_name")
-    cities = Cities.objects.filter(country_id=country_id)
+    country_id = request.GET.get("country_id")
+    cities = [city_data['name'] for city_data in CSVData.CITIES if city_data['country_id'] == country_id]
     return render(
         request, "Station/city_dropdown_list_options.html", {"cities": cities}
     )

@@ -1,0 +1,3 @@
+class CSVData:
+  CITIES = []
+  STATES = []      
