@@ -2,3 +2,4 @@ Django==3.2.9
 django-crispy-forms==1.13.0
 psycopg2==2.8.6
 gunicorn==20.1.0
+django-heroku==0.3.1

@@ -1,1 +1,1 @@
-web: gunicorn weather-data-collector.wsgi
+web: gunicorn weather_django.wsgi

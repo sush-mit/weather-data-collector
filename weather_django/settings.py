@@ -13,6 +13,7 @@ https://docs.djangoproject.com/en/3.2/ref/settings/
 from pathlib import Path
 import os
 
+import django_heroku
 from django.http import request
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -26,7 +27,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = "django-insecure-a88eixm9y4^n7v211i14_2)xg@l@&i9zqt9el44$@amdp1^hg8"
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = os.environ.get("DJANGO_DEBUG")
+DEBUG = (os.environ.get("DJANGO_DEBUG") == "True")
 
 ALLOWED_HOSTS = ['https://weather-data-collector.herokuapp.com/', '127.0.0.1']
 
@@ -141,3 +142,5 @@ CRISPY_TEMPLATE_PACK = "bootstrap4"
 
 LOGIN_REDIRECT_URL = "/users/"
 LOGOUT_REDIRECT_URL = "/login/"
+
+django_heroku.settings(locals())
