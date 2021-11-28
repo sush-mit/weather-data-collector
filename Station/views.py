@@ -55,7 +55,11 @@ class StationDeleteView(LoginRequiredMixin, DeleteView):
 
 def load_cities(request):
     country_id = request.GET.get("country_id")
-    cities = [city_data['name'] for city_data in CSVData.CITIES if city_data['country_id'] == country_id]
+    cities = [
+        city_data["name"]
+        for city_data in CSVData.CITIES
+        if city_data["country_id"] == country_id
+    ]
     return render(
         request, "Station/city_dropdown_list_options.html", {"cities": cities}
     )

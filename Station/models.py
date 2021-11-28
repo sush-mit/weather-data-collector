@@ -2,6 +2,7 @@ from django.db import models
 from django.contrib.auth.models import User
 from django.urls import reverse
 
+
 class Countries(models.Model):
     name = models.CharField(max_length=100)
     iso3 = models.CharField(max_length=3, blank=True, null=True)
@@ -20,7 +21,7 @@ class Station(models.Model):
     name = models.CharField(max_length=255)
     country = models.ForeignKey(Countries, on_delete=models.DO_NOTHING)
     city = models.CharField(max_length=255)
-    latitude =  models.DecimalField(max_digits=10, decimal_places=8)
+    latitude = models.DecimalField(max_digits=10, decimal_places=8)
     longitude = models.DecimalField(max_digits=11, decimal_places=8)
     date_created = models.DateTimeField(auto_now_add=True, null=True)
     date_updated = models.DateTimeField(auto_now=True, null=True)

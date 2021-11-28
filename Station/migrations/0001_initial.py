@@ -15,30 +15,58 @@ class Migration(migrations.Migration):
 
     operations = [
         migrations.CreateModel(
-            name='Countries',
+            name="Countries",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('name', models.CharField(max_length=100)),
-                ('iso3', models.CharField(blank=True, max_length=3, null=True)),
-                ('iso2', models.CharField(blank=True, max_length=2, null=True)),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("name", models.CharField(max_length=100)),
+                ("iso3", models.CharField(blank=True, max_length=3, null=True)),
+                ("iso2", models.CharField(blank=True, max_length=2, null=True)),
             ],
             options={
-                'db_table': 'countries',
-                'managed': False,
+                "db_table": "countries",
+                "managed": False,
             },
         ),
         migrations.CreateModel(
-            name='Station',
+            name="Station",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('name', models.CharField(max_length=255)),
-                ('city', models.CharField(max_length=255)),
-                ('latitude', models.DecimalField(decimal_places=8, max_digits=10)),
-                ('longitude', models.DecimalField(decimal_places=8, max_digits=11)),
-                ('date_created', models.DateTimeField(auto_now_add=True, null=True)),
-                ('date_updated', models.DateTimeField(auto_now=True, null=True)),
-                ('country', models.ForeignKey(on_delete=django.db.models.deletion.DO_NOTHING, to='Station.countries')),
-                ('user', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to=settings.AUTH_USER_MODEL)),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("name", models.CharField(max_length=255)),
+                ("city", models.CharField(max_length=255)),
+                ("latitude", models.DecimalField(decimal_places=8, max_digits=10)),
+                ("longitude", models.DecimalField(decimal_places=8, max_digits=11)),
+                ("date_created", models.DateTimeField(auto_now_add=True, null=True)),
+                ("date_updated", models.DateTimeField(auto_now=True, null=True)),
+                (
+                    "country",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.DO_NOTHING,
+                        to="Station.countries",
+                    ),
+                ),
+                (
+                    "user",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE,
+                        to=settings.AUTH_USER_MODEL,
+                    ),
+                ),
             ],
         ),
     ]
