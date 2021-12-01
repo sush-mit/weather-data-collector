@@ -1,28 +1,56 @@
 {% extends "Station/base.html" %}
+{% load static %}
 {% block title %} Station {% endblock title %}
 
 {%block content %}
 {% block heading %}
+
+<script type="text/javascript">
+  $(function() {
+    // call the tablesorter plugin
+    $("table").tablesorter();
+  });
+</script>
+<style>
+  .tablesorter-headerAsc {
+    background-color: #CCC;
+    background-image: url({% static "tablesorter-master/css/images/metro-black-asc.png" %});
+  }
+  .tablesorter-headerDesc {
+    background-color: #999;
+    background-image: url({% static "tablesorter-master/css/images/metro-black-desc.png" %});
+  }
+  .tablesorter-header {
+    background-color: #99bfe6;
+    background-repeat: no-repeat;
+    background-position: center right;
+    padding: 4px 20px 4px 4px;
+    white-space: normal;
+    cursor: pointer;
+  }
+</style>
+
 <br/>
 <div class="mt-2 mb-4 h1 pr-2 pl-3">
     Stations
     <a class="btn btn-info float-right" href="/stations/input"> Add New </a>
 </div>
 {% endblock heading %}
-<table class="table table-hover">
-    <thead class="thead-light text-center">
+<table class="table table-hover table-bordered tablesorter" id="myTable">
+    <thead class="text-center">
         <tr>
-            <th scope="row">SNo.</th>
-            <th scope="row">Name </th>
+            <th scope="row" class="tablesorter-noSort">SNo.</th>
+            <th scope="row">Name</th>
             <th scope="row">Country</th>
             <th scope="row">City</th>
-            <th scope="row">Latitude</th>
-            <th scope="row">Longitude</th>
+            <th scope="row" class="tablesorter-noSort">Latitude</th>
+            <th scope="row" class="tablesorter-noSort">Longitude</th>
             <th scope="row">Created</th>
             <th scope="row">Updated</th>
-            <th></th>
+            <th class="tablesorter-noSort"></th>
         </tr>
     </thead>
+    <tbody>
         {% for item in data %}
             <tr>
                 <td class="text-center">{{ forloop.counter }}</td>
@@ -40,5 +68,6 @@
                 </td>
             </tr>
         {% endfor %}
+    </tbody>
 </table>
 {% endblock content %}
