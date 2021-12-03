@@ -25,7 +25,6 @@
 <script id="self" data-cities-url="{% url 'ajax_load_cities' %}">
   $("#id_country").change(function () {
     var url = document.getElementById("self").getAttribute("data-cities-url");  // get the url of the `load_cities` view
-    console.log($(this))
     var country = $(this).val();  // get the selected country ID from the HTML input
 
     $.ajax({                       // initialize an AJAX request
@@ -34,7 +33,6 @@
         'country_id': country       // add the country id to the GET parameters
       },
       success: function (data) {   // `data` is the return of the `load_cities` view function
-        console.log(data);
         $("#id_city").html(data);  // replace the contents of the city input with the data that came from the server
       }
     });
