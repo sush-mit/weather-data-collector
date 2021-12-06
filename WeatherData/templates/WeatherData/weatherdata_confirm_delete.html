@@ -1,0 +1,44 @@
+{% extends "WeatherData/base.html" %}
+{% block title %} Station {% endblock title %}
+
+<style>
+  table {
+    table-layout: fixed;
+    width: 100px;
+  }
+  td.scrollable {
+    white-space: nowrap;
+    overflow: hidden;         /* <- this does seem to be required */
+    text-overflow: ellipsis;
+</style>
+
+{%block content %}
+  {% block heading %}
+    <br/>
+    <div class="mt-2 mb-4 h1 pr-2 pl-3">
+        Are you sure you want to delete the following entry?
+    </div>
+  {% endblock heading %}
+  <table class="table table-hover">
+      <thead class="thead-light text-center">
+          <tr>
+              <th scope="row">ID</th>
+              <th scope="row">Date/Time</th>
+              <th scope="row">Temperature</th>
+              <th scope="row">Weather Condition</th>
+              <th scope="row">Humidity</th>
+              <th scope="row">Cloud</th>
+          </tr>
+      </thead>
+      <td class="text-center scrollable">{{ object.id }}</td>
+      <td class="text-center scrollable">{{ object.date_time }}</td>
+      <td class="text-center scrollable">{{object.temperature_c}} C / {{ object.temperature_f }} F</td>
+      <td class="text-center scrollable">{{ object.weather_condition }}</td>
+      <td class="text-center scrollable">{{ object.humidity }} %</td>
+      <td class="text-center scrollable">{{ object.cloud }} %</td>
+  </table>
+  <form method="post" class="float-right pr-2">{% csrf_token %}
+    <input class="btn btn-outline-danger" type="submit" value="Confirm"/>
+    <a href="{% url 'station_data' %}" class="btn btn-outline-secondary">Cancel</a>
+  </form>
+{% endblock content %}

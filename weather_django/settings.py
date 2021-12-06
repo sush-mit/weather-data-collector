@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     "UserAccounts.apps.UseraccountsConfig",
     "AccountsManager.apps.AccountsmanagerConfig",
     "main.apps.MainConfig",
+    "WeatherData.apps.WeatherdataConfig",
     "crispy_forms",
     "django.contrib.admin",
     "django.contrib.auth",

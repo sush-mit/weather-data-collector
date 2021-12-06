@@ -1,0 +1,84 @@
+{% extends "WeatherData/base.html" %}
+{% load static %}
+{% block title %} Station {% endblock title %}
+
+{%block content %}
+{% block heading %}
+
+<script type="text/javascript">
+  $(function() {
+    // call the tablesorter plugin
+    $("table").tablesorter();
+  });
+</script>
+<style>
+  .tablesorter-headerAsc {
+    background-image: url({% static "tablesorter-master/css/images/black-asc.gif" %});
+  }
+  .tablesorter-headerDesc {
+    background-image: url({% static "tablesorter-master/css/images/black-desc.gif" %});
+  }
+  .tablesorter-headerUnSorted {
+    background-image: url({% static "tablesorter-master/css/images/black-unsorted.gif" %});
+  }
+  .header, .tablesorter-header {
+    background-color: #99bfe6;
+    background-repeat: no-repeat;
+    background-position: center right;
+    padding: 4px 20px 4px 4px;
+    white-space: normal;
+    cursor: pointer;
+  }
+  .tablesorter-noSort {
+    background-image: none;
+  }
+
+  table {
+    table-layout: fixed;
+    width: 100px;
+  }
+  td.scrollable {
+    white-space: nowrap;
+    overflow: hidden;         /* <- this does seem to be required */
+    text-overflow: ellipsis;
+}
+</style>
+
+<br/>
+<div class="mt-2 mb-4 h1 pr-2 pl-3">
+    Stations
+    <a class="btn btn-info float-right" href="/stations/add-data/input"> Add New </a>
+</div>
+{% endblock heading %}
+<table class="table table-hover table-bordered tablesorter" id="myTable">
+    <thead class="text-center">
+        <tr>
+            <th scope="col">ID</th>
+            <th scope="col">Date/Time</th>
+            <th scope="col">Temperature</th>
+            <th scope="col">Weather Condition</th>
+            <th scope="col">Hunidity</th>
+            <th scope="col">Cloud</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for item in data %}
+            <tr>
+                <td class="text-center scrollable">{{ item.id }}</td>
+                <td class="text-center scrollable">{{ item.date_time }}</td>
+                <td class="text-center scrollable">{{item.temperature_c}} C / {{ item.temperature_f }} F</td>
+                <td class="text-center scrollable">{{ item.weather_condition }}</td>
+                <td class="text-center scrollable">{{ item.humidity }} %</td>
+                <td class="text-center scrollable">{{ item.cloud }} %</td>
+                <td class="text-center pl-0 pr-0">
+                  <a href="/stations/{{ item.id }}">Show</a>
+                  /
+                  <a href="/stations/{{ item.id }}/edit">Edit</a>
+                  /
+                  <a href="/stations/{{ item.id }}/delete">Delete</a>
+                </td>
+            </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock content %}

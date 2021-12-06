@@ -2,6 +2,17 @@
 {% block title %} Station {% endblock title %}
 
 {%block content %}
+<style>
+table {
+  table-layout: fixed;
+  width: 100px;
+}
+td.scrollable {
+  white-space: nowrap;
+  overflow: hidden;         /* <- this does seem to be required */
+  text-overflow: ellipsis;
+}
+</style>
   {% block heading %}
     <br/>
     <div class="mt-2 mb-4 h1 pr-2 pl-3">
@@ -11,7 +22,8 @@
   <table class="table table-hover">
       <thead class="thead-light text-center">
           <tr>
-              <th scope="row">Name </th>
+            <th scope="row">ID</th>
+              <th scope="row">Name</th>
               <th scope="row">Country</th>
               <th scope="row">City</th>
               <th scope="row">Latitude</th>
@@ -20,13 +32,14 @@
               <th scope="row">Updated</th>
           </tr>
       </thead>
-        <td class="text-center">{{ object.name }}</td>
-        <td class="text-center">{{ object.country }}</td>
-        <td class="text-center">{{ object.city }}</td>
-        <td class="text-center">{{ object.latitude }}</td>
-        <td class="text-center">{{ object.longitude }}</td>
-        <td class="text-center">{{ object.date_created.date }}</td>
-        <td class="text-center">{{ object.date_updated.date }}</td>
+      <td class="text-center scrollable">{{ object.id }}</td>
+      <td class="text-center scrollable">{{ object.name }}</td>
+      <td class="text-center scrollable">{{ object.country }}</td>
+      <td class="text-center scrollable">{{ object.city }}</td>
+      <td class="text-center scrollable">{{ object.latitude }}</td>
+      <td class="text-center scrollable">{{ object.longitude }}</td>
+      <td class="text-center scrollable">{{ object.date_created.date }}</td>
+      <td class="text-center scrollable">{{ object.date_updated.date }}</td>
   </table>
   <form method="post" class="float-right pr-2">{% csrf_token %}
     <input class="btn btn-outline-danger" type="submit" value="Confirm"/>
