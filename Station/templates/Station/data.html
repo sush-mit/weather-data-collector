@@ -32,6 +32,16 @@
   .tablesorter-noSort {
     background-image: none;
   }
+
+  table {
+    table-layout: fixed;
+    width: 100px;
+  }
+  td.scrollable {
+    white-space: nowrap;
+    overflow: hidden;         /* <- this does seem to be required */
+    text-overflow: ellipsis;
+}
 </style>
 
 <br/>
@@ -52,23 +62,26 @@
             <th scope="col">Created</th>
             <th scope="col">Updated</th>
             <th scope="col" class="tablesorter-noSort">Actions</th>
+
         </tr>
     </thead>
     <tbody>
         {% for item in data %}
             <tr>
-                <td class="text-center">{{ item.id }}</td>
-                <td class="text-center">{{ item.name }}</td>
-                <td class="text-center">{{ item.country }}</td>
-                <td class="text-center">{{ item.city }}</td>
-                <td class="text-center">{{ item.latitude }}</td>
-                <td class="text-center">{{ item.longitude }}</td>
-                <td class="text-center">{{ item.date_created.date }}</td>
-                <td class="text-center">{{ item.date_updated.date }}</td>
-                <td class="text-center">
-                  <a href="/stations/{{ item.id }}/edit"> Edit </a>
+                <td class="text-center scrollable">{{ item.id }}</td>
+                <td class="text-center scrollable">{{ item.name }}</td>
+                <td class="text-center scrollable">{{ item.country }}</td>
+                <td class="text-center scrollable">{{ item.city }}</td>
+                <td class="text-center scrollable">{{ item.latitude }}</td>
+                <td class="text-center scrollable">{{ item.longitude }}</td>
+                <td class="text-center scrollable">{{ item.date_created.date }}</td>
+                <td class="text-center scrollable">{{ item.date_updated.date }}</td>
+                <td class="text-center pl-0 pr-0">
+                  <a href="/stations/{{ item.id }}">Show</a>
                   /
-                  <a href="/stations/{{ item.id }}/delete"> Delete </a>
+                  <a href="/stations/{{ item.id }}/edit">Edit</a>
+                  /
+                  <a href="/stations/{{ item.id }}/delete">Delete</a>
                 </td>
             </tr>
         {% endfor %}

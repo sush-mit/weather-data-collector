@@ -14,22 +14,13 @@ from .csv_data import CSVData
 
 @login_required(login_url="/login/")
 def station_data(request):
-    if request.user.is_authenticated:
-        sort_by, order = request.GET.get("sort_by", "date_updated"), request.GET.get(
-            "order", "desc"
+
+    data = Station.objects.filter(user=request.user)
+    return render(
+        request,
+        "Station/data.html",
+        {"data": data}
         )
-        if order == "asc":
-            order = ""
-        if order == "desc":
-            order = "-"
-        data = Station.objects.filter(user=request.user).order_by(order + sort_by)
-        return render(
-            request,
-            "Station/data.html",
-            {"data": data, "sort_by": sort_by, "order": order},
-        )
-    else:
-        return HttpResponseForbidden()
 
 
 class StationInputView(LoginRequiredMixin, CreateView):
