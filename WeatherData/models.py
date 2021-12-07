@@ -9,7 +9,7 @@ class WeatherData(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     station = models.ForeignKey(Station, on_delete=models.CASCADE)
     date_time = models.DateTimeField(null=True)
-    temperature_f = models.DecimalField(max_digits=5, decimal_places=2, null=True)
+    temperature_f = models.DecimalField(max_digits=6, decimal_places=2, null=True)
     temperature_c = models.DecimalField(max_digits=5, decimal_places=2, null=True)
     weather_condition = models.CharField(max_length=255, null=True)
     humidity = models.DecimalField(max_digits=5, decimal_places=2, null=True)
@@ -28,4 +28,4 @@ class WeatherData(models.Model):
         }
 
     def get_absolute_url(self):
-        return reverse("station_data")
+        return reverse("weather_data_data", kwargs={"station_id": self.station.pk})

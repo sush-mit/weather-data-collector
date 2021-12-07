@@ -47,7 +47,7 @@
 <br/>
 <div class="mt-2 mb-4 h1 pr-2 pl-3">
     Stations
-    <a class="btn btn-info float-right" href="/stations/add-data/input"> Add New </a>
+    <a class="btn btn-info float-right" href="{{ request.path }}/add-data"> Add New </a>
 </div>
 {% endblock heading %}
 <table class="table table-hover table-bordered tablesorter" id="myTable">
@@ -57,8 +57,9 @@
             <th scope="col">Date/Time</th>
             <th scope="col">Temperature</th>
             <th scope="col">Weather Condition</th>
-            <th scope="col">Hunidity</th>
+            <th scope="col">Humidity</th>
             <th scope="col">Cloud</th>
+            <th scope="col" class="tablesorter-noSort">Actions</th>
         </tr>
     </thead>
     <tbody>
@@ -71,11 +72,9 @@
                 <td class="text-center scrollable">{{ item.humidity }} %</td>
                 <td class="text-center scrollable">{{ item.cloud }} %</td>
                 <td class="text-center pl-0 pr-0">
-                  <a href="/stations/{{ item.id }}">Show</a>
+                  <a href="{{ request.path }}/{{ item.pk }}/edit">Edit</a>
                   /
-                  <a href="/stations/{{ item.id }}/edit">Edit</a>
-                  /
-                  <a href="/stations/{{ item.id }}/delete">Delete</a>
+                  <a href="{{ request.path }}/{{ item.pk }}/delete">Delete</a>
                 </td>
             </tr>
         {% endfor %}
