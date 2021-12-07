@@ -6,7 +6,7 @@ from .models import Station
 
 class StationInputForm(forms.ModelForm):
 
-    city = forms.ChoiceField(choices=[("None", "---------")])
+    city = forms.ChoiceField(choices=[("None", "---------")], required=False)
     latitude = forms.DecimalField(
         max_digits=10, decimal_places=8, max_value=90, min_value=-90
     )
