@@ -47,44 +47,46 @@
 <br/>
 <div class="mt-2 mb-4 h1 pr-2 pl-3">
     Stations
-    <a class="btn btn-info float-right" href="/stations/input"> Add New </a>
+    <a class="btn btn-info float-right" href="/stations/add"> Add New </a>
 </div>
 {% endblock heading %}
-<table class="table table-hover table-bordered tablesorter" id="myTable">
-    <thead class="text-center">
-        <tr>
-            <th scope="col">ID</th>
-            <th scope="col">Name</th>
-            <th scope="col">Country</th>
-            <th scope="col">City</th>
-            <th scope="col" class="tablesorter-noSort">Latitude</th>
-            <th scope="col" class="tablesorter-noSort">Longitude</th>
-            <th scope="col">Created</th>
-            <th scope="col">Updated</th>
-            <th scope="col" class="tablesorter-noSort">Actions</th>
+<div class="ml-3 mr-2">
+  <table class="table table-hover table-bordered tablesorter" id="myTable">
+      <thead class="text-center">
+          <tr>
+              <th scope="col">ID</th>
+              <th scope="col">Name</th>
+              <th scope="col">Country</th>
+              <th scope="col">City</th>
+              <th scope="col" class="tablesorter-noSort">Latitude</th>
+              <th scope="col" class="tablesorter-noSort">Longitude</th>
+              <th scope="col">Created</th>
+              <th scope="col">Updated</th>
+              <th scope="col" class="tablesorter-noSort">Actions</th>
 
-        </tr>
-    </thead>
-    <tbody>
-        {% for item in data %}
-            <tr>
-                <td class="text-center scrollable">{{ item.id }}</td>
-                <td class="text-center scrollable">{{ item.name }}</td>
-                <td class="text-center scrollable">{{ item.country }}</td>
-                <td class="text-center scrollable">{{ item.city }}</td>
-                <td class="text-center scrollable">{{ item.latitude }}</td>
-                <td class="text-center scrollable">{{ item.longitude }}</td>
-                <td class="text-center scrollable">{{ item.date_created.date }}</td>
-                <td class="text-center scrollable">{{ item.date_updated.date }}</td>
-                <td class="text-center pl-0 pr-0">
-                  <a href="/stations/{{ item.id }}">Show</a>
-                  /
-                  <a href="/stations/{{ item.id }}/edit">Edit</a>
-                  /
-                  <a href="/stations/{{ item.id }}/delete">Delete</a>
-                </td>
-            </tr>
-        {% endfor %}
-    </tbody>
-</table>
+          </tr>
+      </thead>
+      <tbody>
+          {% for item in data %}
+              <tr>
+                  <td class="text-center scrollable">{{ item.id }}</td>
+                  <td class="text-center scrollable">{{ item.name }}</td>
+                  <td class="text-center scrollable">{{ item.country }}</td>
+                  <td class="text-center scrollable">{{ item.city }}</td>
+                  <td class="text-center scrollable">{{ item.latitude }}</td>
+                  <td class="text-center scrollable">{{ item.longitude }}</td>
+                  <td class="text-center scrollable">{{ item.date_created.date }}</td>
+                  <td class="text-center scrollable">{{ item.date_updated.date }}</td>
+                  <td class="text-center pl-0 pr-0">
+                    <a href="/stations/{{ item.id }}">Show</a>
+                    /
+                    <a href="/stations/{{ item.id }}/edit">Edit</a>
+                    /
+                    <a href="/stations/{{ item.id }}/delete">Delete</a>
+                  </td>
+              </tr>
+          {% endfor %}
+      </tbody>
+  </table>
+</div>
 {% endblock content %}

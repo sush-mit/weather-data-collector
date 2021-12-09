@@ -9,7 +9,7 @@ from .views import WeatherDataInputView, WeatherDataEditView, WeatherDataDeleteV
 
 urlpatterns = [
     path("stations/<int:station_id>", views.weather_data_data, name="weather_data_data"),
-    path("stations/<int:station_id>/add-data/", WeatherDataInputView.as_view(), name="weather_data_input"),
+    path("stations/<int:station_id>/add/", WeatherDataInputView.as_view(), name="weather_data_input"),
     path(
         "stations/<int:station_id>/<int:pk>/delete/", WeatherDataDeleteView.as_view(), name="weather_data_delete"
     ),

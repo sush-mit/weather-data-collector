@@ -9,7 +9,7 @@ from .views import StationInputView, StationEditView, StationDeleteView
 
 urlpatterns = [
     path("stations/", views.station_data, name="station_data"),
-    path("stations/input", StationInputView.as_view(), name="station_input"),
+    path("stations/add", StationInputView.as_view(), name="station_input"),
     path(
         "stations/<int:pk>/delete/", StationDeleteView.as_view(), name="station_delete"
     ),

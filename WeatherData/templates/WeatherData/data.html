@@ -46,38 +46,40 @@
 
 <br/>
 <div class="mt-2 mb-4 h1 pr-2 pl-3">
-    Stations
-    <a class="btn btn-info float-right" href="{{ request.path }}/add-data"> Add New </a>
+    Weather Data
+    <a class="btn btn-info float-right" href="{{ request.path }}/add"> Add New </a>
 </div>
 {% endblock heading %}
-<table class="table table-hover table-bordered tablesorter" id="myTable">
-    <thead class="text-center">
-        <tr>
-            <th scope="col">ID</th>
-            <th scope="col">Date/Time</th>
-            <th scope="col">Temperature</th>
-            <th scope="col">Weather Condition</th>
-            <th scope="col">Humidity</th>
-            <th scope="col">Cloud</th>
-            <th scope="col" class="tablesorter-noSort">Actions</th>
-        </tr>
-    </thead>
-    <tbody>
-        {% for item in data %}
-            <tr>
-                <td class="text-center scrollable">{{ item.id }}</td>
-                <td class="text-center scrollable">{{ item.date_time }}</td>
-                <td class="text-center scrollable">{{item.temperature_c}} C / {{ item.temperature_f }} F</td>
-                <td class="text-center scrollable">{{ item.weather_condition }}</td>
-                <td class="text-center scrollable">{{ item.humidity }} %</td>
-                <td class="text-center scrollable">{{ item.cloud }} %</td>
-                <td class="text-center pl-0 pr-0">
-                  <a href="{{ request.path }}/{{ item.pk }}/edit">Edit</a>
-                  /
-                  <a href="{{ request.path }}/{{ item.pk }}/delete">Delete</a>
-                </td>
-            </tr>
-        {% endfor %}
-    </tbody>
-</table>
+<div class="ml-3 mr-2">
+  <table class="table table-hover table-bordered tablesorter" id="myTable">
+      <thead class="text-center">
+          <tr>
+              <th scope="col">ID</th>
+              <th scope="col">Date/Time</th>
+              <th scope="col">Temperature</th>
+              <th scope="col">Weather Condition</th>
+              <th scope="col">Humidity</th>
+              <th scope="col">Cloud</th>
+              <th scope="col" class="tablesorter-noSort">Actions</th>
+          </tr>
+      </thead>
+      <tbody>
+          {% for item in data %}
+              <tr>
+                  <td class="text-center scrollable">{{ item.id }}</td>
+                  <td class="text-center scrollable">{{ item.date_time }}</td>
+                  <td class="text-center scrollable">{{item.temperature_c}} C / {{ item.temperature_f }} F</td>
+                  <td class="text-center scrollable">{{ item.weather_condition }}</td>
+                  <td class="text-center scrollable">{{ item.humidity }} %</td>
+                  <td class="text-center scrollable">{{ item.cloud }} %</td>
+                  <td class="text-center pl-0 pr-0">
+                    <a href="{{ request.path }}/{{ item.pk }}/edit">Edit</a>
+                    /
+                    <a href="{{ request.path }}/{{ item.pk }}/delete">Delete</a>
+                  </td>
+              </tr>
+          {% endfor %}
+      </tbody>
+  </table>
+</div>
 {% endblock content %}
