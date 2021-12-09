@@ -2,11 +2,14 @@ from django import forms
 
 from .csv_data import CSVData
 from .models import Station
+from .models import Countries
 
 
 class StationInputForm(forms.ModelForm):
 
-    city = forms.ChoiceField(choices=[("None", "---------")], required=False)
+    country = forms.ModelChoiceField(queryset=Countries.objects.all(), empty_label="Select a country")
+    city = forms.ChoiceField(choices=[("None", "Select a city")], required=False)
+
     latitude = forms.DecimalField(
         max_digits=10, decimal_places=8, max_value=90, min_value=-90
     )

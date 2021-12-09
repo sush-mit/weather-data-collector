@@ -9,6 +9,7 @@ from django.contrib.auth.decorators import login_required
 
 from .models import WeatherData
 from Station.models import Station
+from .forms import WeatherDataInputForm
 
 @login_required(login_url="/login/")
 def weather_data_data(request, station_id):
@@ -21,9 +22,9 @@ def weather_data_data(request, station_id):
 
 class WeatherDataInputView(LoginRequiredMixin, CreateView):
     model = WeatherData
+    form_class = WeatherDataInputForm
     template_name = "WeatherData/input.html"
     login_url = "/login/"
-    fields =  ("date_time", "temperature_c", "weather_condition", "humidity", "cloud")
     
     def form_valid(self, form):
         form.instance.user = self.request.user
@@ -36,10 +37,10 @@ class WeatherDataInputView(LoginRequiredMixin, CreateView):
 
 class WeatherDataEditView(LoginRequiredMixin, UpdateView):
     model = WeatherData
-    template_name = "WeatherData/edit.html"
+    form_class = WeatherDataInputForm
+    template_name = "WeatherData/input.html"
     login_url = "/login/"
-    fields =  ("date_time", "temperature_c", "weather_condition", "humidity", "cloud")
-
+    
     def form_valid(self, form):
         form.instance.user = self.request.user
         form.instance.station = Station.objects.get(id=self.kwargs["station_id"])

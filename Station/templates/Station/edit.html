@@ -1,5 +1,10 @@
 {% extends "Station/base.html" %}
 
+
+{% block heading %}
+  <h1 class="mt-2 mb-4 text-center"> Edit station</h1>
+{% endblock heading %}
+
 {% block form %}
 {% csrf_token %}
 {% load crispy_forms_tags %}

@@ -15,32 +15,34 @@ td.scrollable {
 </style>
   {% block heading %}
     <br/>
-    <div class="mt-2 mb-4 h1 pr-2 pl-3">
-        Are you sure you want to delete the following entry?
+    <div class="mt-2 mb-4 h2 pr-2 pl-3 font-weight-bold">
+        Are you sure you want to delete the following station and all related weather data?
     </div>
   {% endblock heading %}
-  <table class="table table-bordered table-hover">
-      <thead class="thead-light text-center">
-          <tr>
-            <th scope="row">ID</th>
-              <th scope="row">Name</th>
-              <th scope="row">Country</th>
-              <th scope="row">City</th>
-              <th scope="row">Latitude</th>
-              <th scope="row">Longitude</th>
-              <th scope="row">Created</th>
-              <th scope="row">Updated</th>
-          </tr>
-      </thead>
-      <td class="text-center scrollable">{{ object.id }}</td>
-      <td class="text-center scrollable">{{ object.name }}</td>
-      <td class="text-center scrollable">{{ object.country }}</td>
-      <td class="text-center scrollable">{{ object.city }}</td>
-      <td class="text-center scrollable">{{ object.latitude }}</td>
-      <td class="text-center scrollable">{{ object.longitude }}</td>
-      <td class="text-center scrollable">{{ object.date_created.date }}</td>
-      <td class="text-center scrollable">{{ object.date_updated.date }}</td>
-  </table>
+  <div class="ml-2 mr-2">
+    <table class="table table-bordered table-hover">
+        <thead class="thead-light text-center">
+            <tr>
+              <th scope="row">ID</th>
+                <th scope="row">Name</th>
+                <th scope="row">Country</th>
+                <th scope="row">City</th>
+                <th scope="row">Latitude</th>
+                <th scope="row">Longitude</th>
+                <th scope="row">Created</th>
+                <th scope="row">Updated</th>
+            </tr>
+        </thead>
+        <td class="text-center scrollable">{{ object.id }}</td>
+        <td class="text-center scrollable">{{ object.name }}</td>
+        <td class="text-center scrollable">{{ object.country }}</td>
+        <td class="text-center scrollable">{{ object.city }}</td>
+        <td class="text-center scrollable">{{ object.latitude }}</td>
+        <td class="text-center scrollable">{{ object.longitude }}</td>
+        <td class="text-center scrollable">{{ object.date_created.date }}</td>
+        <td class="text-center scrollable">{{ object.date_updated.date }}</td>
+    </table>
+  </div>
   <form method="post" class="float-right pr-2">{% csrf_token %}
     <input class="btn btn-outline-danger" type="submit" value="Confirm"/>
     <a href="{% url 'station_data' %}" class="btn btn-outline-secondary">Cancel</a>
