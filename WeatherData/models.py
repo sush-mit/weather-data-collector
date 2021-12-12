@@ -16,16 +16,7 @@ class WeatherData(models.Model):
     cloud = models.DecimalField(max_digits=5, decimal_places=2, null=True)
 
     def __str__(self):
-        return {
-            "User": self.user,
-            "Station": self.station,
-            "Date_Time": self.date_time,
-            "Temperature_F": self.temperature_f,
-            "Temperature_C": self.temperature_c,
-            "Weather_Condition": self.weather_condition,
-            "Humidity": self.humidity,
-            "Cloud": self.cloud,
-        }
+        return f"{self.date_time}"
 
     def get_absolute_url(self):
         return reverse("weather_data_data", kwargs={"station_id": self.station.pk})

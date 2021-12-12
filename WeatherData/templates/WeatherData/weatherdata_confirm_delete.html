@@ -1,46 +1,32 @@
-{% extends "WeatherData/base.html" %}
-{% block title %} Station {% endblock title %}
+{% extends "Station/base.html" %}
 
-<style>
-  table {
-    table-layout: fixed;
-    width: 100px;
-  }
-  td.scrollable {
-    white-space: nowrap;
-    overflow: hidden;         /* <- this does seem to be required */
-    text-overflow: ellipsis;
-</style>
 
-{%block content %}
-  {% block heading %}
-    <br/>
-    <div class="mt-2 mb-4 h2 pr-2 pl-3 font-weight-bold">
-        Are you sure you want to delete the following entry?
+{% block heading %}
+  <h1 class="mt-2 mb-4 text-center">Delete weather data?</h1>
+{% endblock heading %}
+
+{% block form %}
+{% csrf_token %}
+{% load crispy_forms_tags %}
+<div>
+  {{ form.date_time|as_crispy_field }}
+  {{ form.weather_condition|as_crispy_field }}
+  <div class="form-row">
+    <div class="form-group col-md-4 mb-0">
+      {{ form.temperature_c|as_crispy_field }}
     </div>
-  {% endblock heading %}
-  <div class="ml-2 mr-2">
-    <table class="table table-bordered table-hover">
-        <thead class="thead-light text-center">
-            <tr>
-                <th scope="row">ID</th>
-                <th scope="row">Date/Time</th>
-                <th scope="row">Temperature</th>
-                <th scope="row">Weather Condition</th>
-                <th scope="row">Humidity</th>
-                <th scope="row">Cloud</th>
-            </tr>
-        </thead>
-        <td class="text-center scrollable">{{ object.id }}</td>
-        <td class="text-center scrollable">{{ object.date_time }}</td>
-        <td class="text-center scrollable">{{object.temperature_c}} C / {{ object.temperature_f }} F</td>
-        <td class="text-center scrollable">{{ object.weather_condition }}</td>
-        <td class="text-center scrollable">{{ object.humidity }} %</td>
-        <td class="text-center scrollable">{{ object.cloud }} %</td>
-    </table>
+    <div class="form-group col-md-4 mb-0">
+      {{ form.humidity|as_crispy_field }}
+    </div>
+    <div class="form-group col-md-4 mb-0">
+      {{ form.cloud|as_crispy_field }}
+    </div>
   </div>
-  <form method="post" class="float-right pr-2">{% csrf_token %}
-    <input class="btn btn-outline-danger" type="submit" value="Confirm"/>
-    <a href="{% url 'station_data' %}" class="btn btn-outline-secondary">Cancel</a>
-  </form>
-{% endblock content %}
+</div>
+{% endblock form %}
+{% block button %}
+<form method="post" class="float-right pr-2">{% csrf_token %}
+  <input class="btn btn-outline-danger" type="submit" value="Confirm"/>
+  <a href="{% url 'station_data' %}" class="btn btn-outline-secondary">Cancel</a>
+</form>
+{% endblock button %}

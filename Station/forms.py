@@ -44,3 +44,14 @@ class StationInputForm(forms.ModelForm):
     class Meta:
         model = Station
         fields = ("name", "country", "city", "latitude", "longitude")
+
+
+class StationDeleteForm(forms.Form):
+    id = forms.IntegerField()
+    name = forms.CharField(max_length=255)
+    country = forms.CharField(max_length=255)
+    city = forms.CharField(max_length=255)
+    latitude = forms.DecimalField()
+    longitude = forms.DecimalField()
+    date_created = forms.DateTimeField()
+    date_updated = forms.DateTimeField()

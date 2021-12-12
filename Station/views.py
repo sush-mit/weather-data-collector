@@ -1,14 +1,16 @@
 from django.contrib.auth import login
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.forms.forms import Form
+from django.urls.base import reverse
 from django.views.generic import CreateView, UpdateView, DeleteView
 from django.http.response import HttpResponseForbidden
-from django.shortcuts import render
+from django.shortcuts import redirect, render
 from django.views.generic.edit import DeleteView
 from django.contrib.auth.decorators import login_required
 from django.utils.translation import ugettext
 
-from .models import Station
-from .forms import StationInputForm
+from .models import Countries, Station
+from .forms import StationInputForm, StationDeleteForm
 from .csv_data import CSVData
 
 
@@ -45,14 +47,24 @@ class StationEditView(LoginRequiredMixin, UpdateView):
         return super().form_valid(form)
 
 
-class StationDeleteView(LoginRequiredMixin, DeleteView):
-    model = Station
-    login_url = "/login/"
-    success_url = "/stations/"
-
-    def get_queryset(self):
-        user = self.request.user
-        return self.model.objects.filter(user=user)
+@login_required(login_url="/login/")
+def station_delete(request, pk):
+    if request.method == "POST":
+      Station.objects.filter(id=pk).delete()
+      return redirect(reverse("station_data"))
+    else:
+      data = Station.objects.filter(id=pk).values()[0]
+      data['country'] = Countries.objects.filter(id=data['country_id'])[0]
+      del data['country_id']
+      form = StationDeleteForm(initial=data)
+      for f in form:
+        # form.fields[f.html_name].widget.attrs['readonly'] = True
+        form.fields[f.html_name].widget.attrs['disabled'] = True
+      return render(
+          request,
+          "Station/station_confirm_delete.html",
+          {"form": form}
+          )
 
 
 def load_cities(request):
