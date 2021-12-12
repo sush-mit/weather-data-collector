@@ -54,7 +54,7 @@ class WeatherDataEditView(LoginRequiredMixin, UpdateView):
 def weather_data_delete(request, station_id, pk):
     if request.method == "POST":
       data = WeatherData.objects.filter(id=pk).delete()
-      return redirect(reverse("weather_data_data", station_id=station_id, pk=pk))
+      return redirect(reverse("weather_data_data", args=[station_id]))
     else:
       data = WeatherData.objects.filter(id=pk).values()[0]
       form = WeatherDataDeleteForm(initial=data)
@@ -64,7 +64,8 @@ def weather_data_delete(request, station_id, pk):
       return render(
           request,
           "WeatherData/weatherdata_confirm_delete.html",
-          {"form": form}
+          {"form": form,
+           "station_id": station_id}
           )
 
 
