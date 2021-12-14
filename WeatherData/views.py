@@ -12,8 +12,8 @@ from Station.models import Station
 from .forms import WeatherDataDeleteForm, WeatherDataInputForm
 
 @login_required(login_url="/login/")
-def weather_data_data(request, station_id):
-    data = WeatherData.objects.filter(user=request.user).filter(station=station_id)
+def weather_data_data(request):
+    data = WeatherData.objects.filter(user=request.user)
     return render(
         request,
         "WeatherData/data.html",
@@ -28,7 +28,6 @@ class WeatherDataInputView(LoginRequiredMixin, CreateView):
     
     def form_valid(self, form):
         form.instance.user = self.request.user
-        form.instance.station = Station.objects.get(id=self.kwargs["station_id"])
         temperature_f = (form.instance.temperature_c * 9/5) + 32
         form.instance.temperature_f = temperature_f
         del temperature_f
@@ -43,7 +42,6 @@ class WeatherDataEditView(LoginRequiredMixin, UpdateView):
     
     def form_valid(self, form):
         form.instance.user = self.request.user
-        form.instance.station = Station.objects.get(id=self.kwargs["station_id"])
         temperature_f = (form.instance.temperature_c * 9/5) + 32
         form.instance.temperature_f = temperature_f
         del temperature_f
@@ -51,10 +49,10 @@ class WeatherDataEditView(LoginRequiredMixin, UpdateView):
 
 
 @login_required(login_url="/login/")
-def weather_data_delete(request, station_id, pk):
+def weather_data_delete(request, pk):
     if request.method == "POST":
       data = WeatherData.objects.filter(id=pk).delete()
-      return redirect(reverse("weather_data_data", args=[station_id]))
+      return redirect(reverse("weather_data_data"))
     else:
       data = WeatherData.objects.filter(id=pk).values()[0]
       form = WeatherDataDeleteForm(initial=data)
@@ -64,19 +62,5 @@ def weather_data_delete(request, station_id, pk):
       return render(
           request,
           "WeatherData/weatherdata_confirm_delete.html",
-          {"form": form,
-           "station_id": station_id}
+          {"form": form}
           )
-
-
-class WeatherDataDeleteView(LoginRequiredMixin, DeleteView):
-    model = WeatherData
-    login_url = "/login/"
-
-    def get_success_url(self) -> str:
-        return reverse("weather_data_data", kwargs={"station_id": self.kwargs["station_id"]})
-
-    def get_queryset(self):
-        user = self.request.user
-        station_id = self.kwargs["station_id"]
-        return self.model.objects.filter(user=user).filter(station_id=station_id)

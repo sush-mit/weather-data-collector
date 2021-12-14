@@ -55,23 +55,27 @@
       <thead class="text-center">
           <tr>
               <th scope="col">ID</th>
+              <th scope="col">Station ID</th>
               <th scope="col">Date/Time</th>
               <th scope="col">Temperature</th>
               <th scope="col">Weather Condition</th>
               <th scope="col">Humidity</th>
               <th scope="col">Cloud</th>
+              <th scope="col">Wind speed</th>
               <th scope="col" class="tablesorter-noSort">Actions</th>
           </tr>
       </thead>
       <tbody>
           {% for item in data %}
               <tr>
-                  <td class="text-center scrollable">{{ item.id }}</td>
-                  <td class="text-center scrollable">{{ item.date_time }}</td>
-                  <td class="text-center scrollable">{{item.temperature_c}} C / {{ item.temperature_f }} F</td>
-                  <td class="text-center scrollable">{{ item.weather_condition }}</td>
-                  <td class="text-center scrollable">{{ item.humidity }} %</td>
-                  <td class="text-center scrollable">{{ item.cloud }} %</td>
+                  <td class="text-center scrollable" data-toggle="tooltip" title="{{ item.id }}">{{ item.id }}</td>
+                  <td class="text-center scrollable" data-toggle="tooltip" title="{{ item.station }}">{{ item.station }}</td>
+                  <td class="text-center scrollable" data-toggle="tooltip" title="{{ item.date_time }}">{{ item.date_time }}</td>
+                  <td class="text-center scrollable" data-toggle="tooltip" title="{{item.temperature_c}} C / {{ item.temperature_f }} F">{{item.temperature_c}} C / {{ item.temperature_f }} F</td>
+                  <td class="text-center scrollable" data-toggle="tooltip" title="{{ item.weather_condition }}">{{ item.weather_condition }}</td>
+                  <td class="text-center scrollable" data-toggle="tooltip" title="{{ item.humidity }} %">{{ item.humidity }} %</td>
+                  <td class="text-center scrollable" data-toggle="tooltip" title="{{ item.cloud }} %">{{ item.cloud }} %</td>
+                  <td class="text-center scrollable" data-toggle="tooltip" title="{{ item.wind_kph }} km/h">{{ item.wind_kph }} km/h</td>
                   <td class="text-center pl-0 pr-0">
                     <a href="{{ request.path }}/{{ item.pk }}/edit">Edit</a>
                     /

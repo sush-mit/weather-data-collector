@@ -13,7 +13,7 @@ class WeatherDataInputForm(forms.ModelForm):
 
   class Meta:
       model = WeatherData
-      fields =  ("date_time", "temperature_c", "weather_condition", "humidity", "cloud")
+      fields =  ("station", "date_time", "temperature_c", "weather_condition", "humidity", "cloud", "wind_kph")
 
 
 class WeatherDataDeleteForm(forms.Form):

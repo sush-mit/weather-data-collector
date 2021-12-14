@@ -27,6 +27,6 @@
 {% block button %}
 <form method="post" class="float-right pr-2">{% csrf_token %}
   <input class="btn btn-outline-danger" type="submit" value="Confirm"/>
-  <a href="{% url 'weather_data_data' station_id %}" class="btn btn-outline-secondary">Cancel</a>
+  <a href="{% url 'weather_data_data' %}" class="btn btn-outline-secondary">Cancel</a>
 </form>
 {% endblock button %}
