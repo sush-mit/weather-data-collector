@@ -14,6 +14,7 @@ class WeatherDataInputForm(forms.ModelForm):
       self.fields['date_time'].widget.attrs['placeholder'] = 'YYYY-MM-DD HH:MM:SS'
       self.fields['date_time'].widget.attrs['autocomplete'] = 'off'
       self.fields['station'].queryset = Station.objects.filter(user=user)
+      self.fields['station'].empty_label = "Select a station"
 
   class Meta:
       model = WeatherData
