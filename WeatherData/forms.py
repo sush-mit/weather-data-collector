@@ -1,5 +1,7 @@
 from django import forms
 
+from Station.models import Station
+
 from .models import WeatherData
 
 
@@ -7,10 +9,11 @@ class WeatherDataInputForm(forms.ModelForm):
   
   date_time = forms.DateTimeField(label="Date/Time", input_formats="%Y-%m-%d %H:%M:%S")
 
-  def __init__(self, *args, **kwargs):
+  def __init__(self, user, *args, **kwargs):
       super(WeatherDataInputForm, self).__init__(*args, **kwargs)
       self.fields['date_time'].widget.attrs['placeholder'] = 'YYYY-MM-DD HH:MM:SS'
       self.fields['date_time'].widget.attrs['autocomplete'] = 'off'
+      self.fields['station'].queryset = Station.objects.filter(user=user)
 
   class Meta:
       model = WeatherData

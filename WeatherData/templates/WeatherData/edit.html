@@ -9,11 +9,7 @@
 {% csrf_token %}
 {% load crispy_forms_tags %}
 <div>
-  <div class="form-row">
-    <div class="form-group col-md-2 mb-0">
-      {{ form.station|as_crispy_field }}
-    </div>
-  </div>
+    {{ form.station|as_crispy_field }}
     {{ form.date_time|as_crispy_field }}
     <div class="form-row">
       <div class="form-group col-md-8 mb-0">
