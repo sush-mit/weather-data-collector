@@ -27,7 +27,7 @@ class Station(models.Model):
     date_updated = models.DateTimeField(auto_now=True, null=True)
 
     def __str__(self):
-        return str(self.id)
+        return self.name
 
     def get_absolute_url(self):
         return reverse("station_data")

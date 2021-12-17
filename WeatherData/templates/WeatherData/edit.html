@@ -36,6 +36,18 @@
     </div>
 </div>
 
+{% load static %}
+<script type="text/javascript" src={% static 'datetimepicker-master/build/jquery.datetimepicker.full.js' %}></script>
+<script>
+  $('#id_date_time').datetimepicker({
+    timepicker: true,
+    datepicker: true,
+    format: 'Y-m-d H:i',
+    weeks: true
+  })
+</script>
+
+
 {% endblock form %}
 {% block button %}
   <button type="submit" name="add" class="btn btn-primary">Save</button>

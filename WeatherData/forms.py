@@ -10,6 +10,7 @@ class WeatherDataInputForm(forms.ModelForm):
   def __init__(self, *args, **kwargs):
       super(WeatherDataInputForm, self).__init__(*args, **kwargs)
       self.fields['date_time'].widget.attrs['placeholder'] = 'YYYY-MM-DD HH:MM:SS'
+      self.fields['date_time'].widget.attrs['autocomplete'] = 'off'
 
   class Meta:
       model = WeatherData
