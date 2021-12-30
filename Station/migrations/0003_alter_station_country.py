@@ -7,13 +7,15 @@ import django.db.models.deletion
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('Station', '0002_alter_station_country'),
+        ("Station", "0002_alter_station_country"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='station',
-            name='country',
-            field=models.ForeignKey(on_delete=django.db.models.deletion.DO_NOTHING, to='Station.countries'),
+            model_name="station",
+            name="country",
+            field=models.ForeignKey(
+                on_delete=django.db.models.deletion.DO_NOTHING, to="Station.countries"
+            ),
         ),
     ]

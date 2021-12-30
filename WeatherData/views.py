@@ -11,6 +11,7 @@ from .models import WeatherData
 from Station.models import Station
 from .forms import WeatherDataDeleteForm, WeatherDataInputForm
 
+
 @login_required(login_url="/login/")
 def weather_data_data(request):
     data = WeatherData.objects.filter(user=request.user)
@@ -20,22 +21,23 @@ def weather_data_data(request):
         {"data": data},
     )
 
+
 class WeatherDataInputView(LoginRequiredMixin, CreateView):
     model = WeatherData
     form_class = WeatherDataInputForm
     template_name = "WeatherData/input.html"
     login_url = "/login/"
-    
+
     def form_valid(self, form):
         form.instance.user = self.request.user
-        temperature_f = (form.instance.temperature_c * 9/5) + 32
+        temperature_f = (form.instance.temperature_c * 9 / 5) + 32
         form.instance.temperature_f = temperature_f
         del temperature_f
         return super().form_valid(form)
-      
+
     def get_form_kwargs(self):
         kwargs = super(WeatherDataInputView, self).get_form_kwargs()
-        kwargs.update({'user': self.request.user})
+        kwargs.update({"user": self.request.user})
         return kwargs
 
 
@@ -44,10 +46,10 @@ class WeatherDataEditView(LoginRequiredMixin, UpdateView):
     form_class = WeatherDataInputForm
     template_name = "WeatherData/input.html"
     login_url = "/login/"
-    
+
     def form_valid(self, form):
         form.instance.user = self.request.user
-        temperature_f = (form.instance.temperature_c * 9/5) + 32
+        temperature_f = (form.instance.temperature_c * 9 / 5) + 32
         form.instance.temperature_f = temperature_f
         del temperature_f
         return super().form_valid(form)
@@ -56,16 +58,14 @@ class WeatherDataEditView(LoginRequiredMixin, UpdateView):
 @login_required(login_url="/login/")
 def weather_data_delete(request, pk):
     if request.method == "POST":
-      data = WeatherData.objects.filter(id=pk).delete()
-      return redirect(reverse("weather_data_data"))
+        data = WeatherData.objects.filter(id=pk).delete()
+        return redirect(reverse("weather_data_data"))
     else:
-      data = WeatherData.objects.filter(id=pk).values()[0]
-      form = WeatherDataDeleteForm(initial=data)
-      for f in form:
-        # form.fields[f.html_name].widget.attrs['readonly'] = True
-        form.fields[f.html_name].widget.attrs['disabled'] = True
-      return render(
-          request,
-          "WeatherData/weatherdata_confirm_delete.html",
-          {"form": form}
-          )
+        data = WeatherData.objects.filter(id=pk).values()[0]
+        form = WeatherDataDeleteForm(initial=data)
+        for f in form:
+            # form.fields[f.html_name].widget.attrs['readonly'] = True
+            form.fields[f.html_name].widget.attrs["disabled"] = True
+        return render(
+            request, "WeatherData/weatherdata_confirm_delete.html", {"form": form}
+        )

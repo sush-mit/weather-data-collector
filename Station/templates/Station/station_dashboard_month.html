@@ -1,0 +1,81 @@
+{% extends "Station/base.html" %}
+{% load static %}
+{% block title %} Station {% endblock title %}
+
+  {%block content %}
+
+    {% block heading %}
+      <script src="{% static "chart.js-3.6.2/dist/chart.min.js" %}"></script>
+    {% endblock heading %}
+
+    <div class="col-sm-6">
+      <canvas id="myChart" width="200" height="200"></canvas>
+    </div>
+    <script type="text/javascript">
+        var temperatures_c = "{{ data.temperatures_c }}"
+        var temperatures_c = temperatures_c.match(/\d+(?:\.\d+)?/g).map(Number)
+        var days = [];
+        var temp_days = "{{ data.days }}"
+        temp_days = temp_days.slice(1, temp_days.length-1)
+        temp_days = temp_days.split(", ")
+        console.log(temp_days)
+        temp_days.forEach(convertDates_Weeks)
+        var backgroundColor = ['rgba(255, 99, 132, 0.2)']
+        var borderColor = ['rgba(255, 99, 132, 1)']
+        createChart('Temperature (C)', temperatures_c, backgroundColor, borderColor)
+
+        function convertDates_Weeks(value) {
+          // For some reason the date values have "&#x27;" in them.
+          value = value.replace('&#x27;', '')
+          value = value.replace('&#x27;', '')
+          // days.push(date.toLocaleString('en-us', {  weekday: 'short' }))
+          days.push(value)
+        }
+
+        function createChart(label, data, backgroundColor, borderColor) {
+            var data = {
+              labels: days,
+              datasets: [{
+                  label: label,
+                  data: data,
+                  backgroundColor: backgroundColor,
+                  borderColor: borderColor,
+                  borderWidth: 1
+              }]
+            }
+            const ctx = document.getElementById('myChart').getContext('2d');
+            const myChart = new Chart(ctx, {
+              type: 'line',
+              data: data,
+              options: {
+                scales: {
+                    y: {
+                        ticks: {
+                            callback: function(value, index, ticks) {
+                                return value + ' C';
+                            }
+                        },
+                        display: true,
+                        beginAtZero: true,
+                        text: 'test'
+                    },
+                    x: {
+                        display: true,
+                        text: 'test'
+                    }
+                },
+                responsive: true,
+                plugins: {
+                  legend: {
+                    position: 'top',
+                  },
+                  title: {
+                    display: false,
+                    text: 'Temperature'
+                  }
+                }
+              }
+            })
+        }
+    </script>
+{% endblock content %}

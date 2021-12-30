@@ -6,13 +6,13 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('WeatherData', '0002_auto_20211206_1303'),
+        ("WeatherData", "0002_auto_20211206_1303"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='weatherdata',
-            name='temperature_f',
+            model_name="weatherdata",
+            name="temperature_f",
             field=models.DecimalField(decimal_places=2, max_digits=6, null=True),
         ),
     ]

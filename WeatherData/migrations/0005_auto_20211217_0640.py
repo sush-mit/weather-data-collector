@@ -6,22 +6,22 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('WeatherData', '0004_weatherdata_wind_kph'),
+        ("WeatherData", "0004_weatherdata_wind_kph"),
     ]
 
     operations = [
         migrations.RemoveField(
-            model_name='weatherdata',
-            name='date_time',
+            model_name="weatherdata",
+            name="date_time",
         ),
         migrations.AddField(
-            model_name='weatherdata',
-            name='date',
+            model_name="weatherdata",
+            name="date",
             field=models.DateField(null=True),
         ),
         migrations.AddField(
-            model_name='weatherdata',
-            name='time',
+            model_name="weatherdata",
+            name="time",
             field=models.DateField(null=True),
         ),
     ]

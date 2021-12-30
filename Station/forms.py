@@ -7,7 +7,9 @@ from .models import Countries
 
 class StationInputForm(forms.ModelForm):
 
-    country = forms.ModelChoiceField(queryset=Countries.objects.all(), empty_label="Select a country")
+    country = forms.ModelChoiceField(
+        queryset=Countries.objects.all(), empty_label="Select a country"
+    )
     city = forms.ChoiceField(choices=[("None", "Select a city")], required=False)
 
     latitude = forms.DecimalField(
