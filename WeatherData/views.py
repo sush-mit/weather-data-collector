@@ -44,7 +44,7 @@ class WeatherDataInputView(LoginRequiredMixin, CreateView):
 class WeatherDataEditView(LoginRequiredMixin, UpdateView):
     model = WeatherData
     form_class = WeatherDataInputForm
-    template_name = "WeatherData/input.html"
+    template_name = "WeatherData/edit.html"
     login_url = "/login/"
 
     def form_valid(self, form):
@@ -53,6 +53,11 @@ class WeatherDataEditView(LoginRequiredMixin, UpdateView):
         form.instance.temperature_f = temperature_f
         del temperature_f
         return super().form_valid(form)
+
+    def get_form_kwargs(self):
+        kwargs = super(WeatherDataEditView, self).get_form_kwargs()
+        kwargs.update({"user": self.request.user})
+        return kwargs
 
 
 @login_required(login_url="/login/")

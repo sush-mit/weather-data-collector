@@ -77,9 +77,9 @@
                   <td class="text-center scrollable" data-toggle="tooltip" title="{{ item.cloud }} %">{{ item.cloud }} %</td>
                   <td class="text-center scrollable" data-toggle="tooltip" title="{{ item.wind_kph }} km/h">{{ item.wind_kph }} km/h</td>
                   <td class="text-center pl-0 pr-0">
-                    <a href="{{ request.path }}/{{ item.pk }}/edit">Edit</a>
+                    <a href="{{ request.path }}{{ item.pk }}/edit">Edit</a>
                     /
-                    <a href="{{ request.path }}/{{ item.pk }}/delete">Delete</a>
+                    <a href="{{ request.path }}{{ item.pk }}/delete">Delete</a>
                   </td>
               </tr>
           {% endfor %}
