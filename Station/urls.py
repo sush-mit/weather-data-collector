@@ -20,9 +20,4 @@ urlpatterns = [
         station_dashboard_view,
         name="station_dashboard",
     ),
-    path(
-        "stations/<int:station_id>/dashboard?tf",
-        station_dashboard_view,
-        name="station_dashboard",
-    ),
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

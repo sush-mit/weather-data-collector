@@ -8,7 +8,7 @@ from .views import WeatherDataInputView, WeatherDataEditView
 
 
 urlpatterns = [
-    path("weather_data", views.weather_data_data, name="weather_data_data"),
+    path("weather_data/", views.weather_data_data, name="weather_data_data"),
     path(
         "weather_data/add/", WeatherDataInputView.as_view(), name="weather_data_input"
     ),

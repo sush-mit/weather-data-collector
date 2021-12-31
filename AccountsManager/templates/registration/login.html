@@ -8,5 +8,5 @@ Weather: Login
 {% endblock heading %}
 {% block button %}
 <button type="submit" name="login" class="btn btn-primary">Login</button>
-<p>Don't have an account? <a href="/register">Create one now</a></p>
+<p>Don't have an account? <a href="{% url 'register' %}">Create one now</a></p>
 {% endblock button %}
