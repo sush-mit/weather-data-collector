@@ -8,33 +8,55 @@
       <script src="{% static "chart.js-3.6.2/dist/chart.min.js" %}"></script>
     {% endblock heading %}
 
-    <div class="col-sm-6">
-      <canvas id="myChart" width="200" height="200"></canvas>
-    </div>
+    <table class="table table-borderless">
+        <tbody>
+            <tr>
+                <td class="col-sm-6"><canvas id="tempChart" width="150" height="150"></canvas></td>
+                <td class="col-sm-6"><canvas id="humChart" width="150" height="150"></canvas></td>
+            </tr>
+            <tr>
+                <td class="col-sm-6"><canvas id="cldsChart" width="150" height="150"></canvas></td>
+                <td class="col-sm-6"><canvas id="wndsChart" width="150" height="150"></canvas></td>
+            </tr>
+        </tbody>
+    </table>
+
     <script type="text/javascript">
         var temperatures_c = "{{ data.temperatures_c }}"
         var temperatures_c = temperatures_c.match(/\d+(?:\.\d+)?/g).map(Number)
-        var days = [];
-        var temp_days = "{{ data.days }}"
-        temp_days = temp_days.slice(1, temp_days.length-1)
-        temp_days = temp_days.split(", ")
-        console.log(temp_days)
-        temp_days.forEach(convertDates_Weeks)
+        var humidity = "{{ data.humidity }}"
+        var humidity = humidity.match(/\d+(?:\.\d+)?/g).map(Number)
+        var clouds = "{{ data.clouds }}"
+        var clouds = clouds.match(/\d+(?:\.\d+)?/g).map(Number)
+        var windspeeds = "{{ data.windspeeds }}"
+        var windspeeds = windspeeds.match(/\d+(?:\.\d+)?/g).map(Number)
+
+        console.log(temperatures_c, humidity, clouds, windspeeds)
+
+        var months = [];
+        var temp_months = "{{ data.months }}"
+        temp_months = temp_months.slice(1, temp_months.length-1)
+        temp_months = temp_months.split(", ")
+        console.log(temp_months)
+        temp_months.forEach(convertDates_Weeks)
         var backgroundColor = ['rgba(255, 99, 132, 0.2)']
         var borderColor = ['rgba(255, 99, 132, 1)']
-        createChart('Temperature (C)', temperatures_c, backgroundColor, borderColor)
+        createTempChart('Temperature (C)', temperatures_c, backgroundColor, borderColor)
+        createHumChart('Humidity (%)', humidity, backgroundColor, borderColor)
+        createCldsChart('Clouds (%)', clouds, backgroundColor, borderColor)
+        createWndSChart('Wind speed (kph)', windspeeds, backgroundColor, borderColor)
 
         function convertDates_Weeks(value) {
           // For some reason the date values have "&#x27;" in them.
           value = value.replace('&#x27;', '')
           value = value.replace('&#x27;', '')
-          // days.push(date.toLocaleString('en-us', {  weekday: 'short' }))
-          days.push(value)
+          // months.push(date.toLocaleString('en-us', {  weekday: 'short' }))
+          months.push(value)
         }
 
-        function createChart(label, data, backgroundColor, borderColor) {
+        function createTempChart(label, data, backgroundColor, borderColor) {
             var data = {
-              labels: days,
+              labels: months,
               datasets: [{
                   label: label,
                   data: data,
@@ -43,8 +65,8 @@
                   borderWidth: 1
               }]
             }
-            const ctx = document.getElementById('myChart').getContext('2d');
-            const myChart = new Chart(ctx, {
+            var ctx = document.getElementById('tempChart').getContext('2d');
+            var myChart = new Chart(ctx, {
               type: 'line',
               data: data,
               options: {
@@ -72,6 +94,143 @@
                   title: {
                     display: false,
                     text: 'Temperature'
+                  }
+                }
+              }
+            })
+        }
+
+        function createHumChart(label, data, backgroundColor, borderColor) {
+            var data = {
+              labels: months,
+              datasets: [{
+                  label: label,
+                  data: data,
+                  backgroundColor: backgroundColor,
+                  borderColor: borderColor,
+                  borderWidth: 1
+              }]
+            }
+            var ctx = document.getElementById('humChart').getContext('2d');
+            var myChart = new Chart(ctx, {
+              type: 'line',
+              data: data,
+              options: {
+                scales: {
+                    y: {
+                        ticks: {
+                            callback: function(value, index, ticks) {
+                                return value + ' %';
+                            }
+                        },
+                        display: true,
+                        beginAtZero: true,
+                        text: 'test'
+                    },
+                    x: {
+                        display: true,
+                        text: 'test'
+                    }
+                },
+                responsive: true,
+                plugins: {
+                  legend: {
+                    position: 'top',
+                  },
+                  title: {
+                    display: false,
+                    text: 'Humidity'
+                  }
+                }
+              }
+            })
+        }
+
+        function createCldsChart(label, data, backgroundColor, borderColor) {
+            var data = {
+              labels: months,
+              datasets: [{
+                  label: label,
+                  data: data,
+                  backgroundColor: backgroundColor,
+                  borderColor: borderColor,
+                  borderWidth: 1
+              }]
+            }
+            var ctx = document.getElementById('cldsChart').getContext('2d');
+            var myChart = new Chart(ctx, {
+              type: 'line',
+              data: data,
+              options: {
+                scales: {
+                    y: {
+                        ticks: {
+                            callback: function(value, index, ticks) {
+                                return value + ' %';
+                            }
+                        },
+                        display: true,
+                        beginAtZero: true,
+                        text: 'test'
+                    },
+                    x: {
+                        display: true,
+                        text: 'test'
+                    }
+                },
+                responsive: true,
+                plugins: {
+                  legend: {
+                    position: 'top',
+                  },
+                  title: {
+                    display: false,
+                    text: 'Humidity'
+                  }
+                }
+              }
+            })
+        }
+        function createWndSChart(label, data, backgroundColor, borderColor) {
+            var data = {
+              labels: months,
+              datasets: [{
+                  label: label,
+                  data: data,
+                  backgroundColor: backgroundColor,
+                  borderColor: borderColor,
+                  borderWidth: 1
+              }]
+            }
+            var ctx = document.getElementById('wndsChart').getContext('2d');
+            var myChart = new Chart(ctx, {
+              type: 'line',
+              data: data,
+              options: {
+                scales: {
+                    y: {
+                        ticks: {
+                            callback: function(value, index, ticks) {
+                                return value + ' kph';
+                            }
+                        },
+                        display: true,
+                        beginAtZero: true,
+                        text: 'test'
+                    },
+                    x: {
+                        display: true,
+                        text: 'test'
+                    }
+                },
+                responsive: true,
+                plugins: {
+                  legend: {
+                    position: 'top',
+                  },
+                  title: {
+                    display: false,
+                    text: 'Humidity'
                   }
                 }
               }
