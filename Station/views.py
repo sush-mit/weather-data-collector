@@ -1,6 +1,7 @@
 import calendar
 from datetime import datetime, timedelta
 
+from django.utils import timezone
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.urls.base import reverse
 from django.views.generic import CreateView, UpdateView
@@ -86,24 +87,16 @@ def station_dashboard_view(request, station_id):
 
 def station_dashboard_day(request, station_id):
     station = Station.objects.filter(user=request.user).get(id=station_id)
-    # test_date = datetime.today() - timedelta(days=1)
+    # test_date = timezone.now() - timedelta(days=1)
     hours = set(
         query.date_time.hour
         for query in WeatherData.objects.filter(station=station).filter(
-            date_time__startswith=datetime.today().date()
+            date_time__startswith=timezone.now().date()
         )
     )
     avg_temperatures_c, avg_humidity, avg_clouds, avg_windspeeds = get_average_day(
         hours=hours, station=station
     )
-    if (
-        any(
-            not var
-            for var in (avg_temperatures_c, avg_humidity, avg_clouds, avg_windspeeds)
-        )
-        or hours == set()
-    ):
-        return data_not_found(request)
     data = {
         "temperatures_c": avg_temperatures_c,
         "humidity": avg_humidity,
@@ -113,9 +106,10 @@ def station_dashboard_day(request, station_id):
     }
     return render(request, "Station/station_dashboard_day.html", {"data": data})
 
+
 def station_dashboard_week(request, station_id):
-    one_week_ago = datetime.today() - timedelta(days=7)
     station = Station.objects.filter(user=request.user).get(id=station_id)
+    one_week_ago = timezone.now() - timedelta(days=7)
     week_days = set(
         query.date_time.weekday()
         for query in WeatherData.objects.filter(station=station).filter(
@@ -125,70 +119,52 @@ def station_dashboard_week(request, station_id):
     avg_temperatures_c, avg_humidity, avg_clouds, avg_windspeeds = get_average_week(
         one_week_ago=one_week_ago, week_days=week_days, station=station
     )
-    if (
-        any(
-            not var
-            for var in (avg_temperatures_c, avg_humidity, avg_clouds, avg_windspeeds)
-        )
-        or week_days == set()
-    ):
-        return data_not_found(request)
     week_days = [calendar.day_abbr[week_day] for week_day in week_days]
-    if avg_temperatures_c == [] or week_days == set():
-        data_not_found(request)
-        data = {
-            "temperatures_c": avg_temperatures_c,
-            "humidity": avg_humidity,
-            "clouds": avg_clouds,
-            "windspeeds": avg_windspeeds,
-            "week_days": week_days,
-        }
+    data = {
+        "temperatures_c": avg_temperatures_c,
+        "humidity": avg_humidity,
+        "clouds": avg_clouds,
+        "windspeeds": avg_windspeeds,
+        "week_days": week_days,
+    }
     return render(request, "Station/station_dashboard_week.html", {"data": data})
+
 
 def station_dashboard_month(request, station_id):
     station = Station.objects.filter(user=request.user).get(id=station_id)
     days = set(
         query.date_time.day
         for query in WeatherData.objects.filter(station=station).filter(
-            date_time__month=datetime.today().month
+            date_time__month=timezone.now().month
         )
     )
-    avg_temperatures_c = [
-        avg_temperature_c
-        for day in days
-        for avg_temperature_c in WeatherData.objects.filter(station=station)
-        .filter(date_time__month=datetime.today().month)
-        .filter(date_time__day=day)
-        .aggregate(Avg("temperature_c"))
-        .values()
-    ]
-    if avg_temperatures_c == [] or days == set():
-        data_not_found(request)
-    data = {"temperatures_c": avg_temperatures_c, "days": days}
+    avg_temperatures_c, avg_humidity, avg_clouds, avg_windspeeds = get_average_month(
+        days=days, station=station
+    )
+    week_days = [calendar.day_abbr[day] for day in days]
+
+    data = {
+        "temperatures_c": avg_temperatures_c,
+        "humidity": avg_humidity,
+        "clouds": avg_clouds,
+        "windspeeds": avg_windspeeds,
+        "week_days": week_days,
+    }
     return render(request, "Station/station_dashboard_month.html", {"data": data})
+
 
 def station_dashboard_year(request, station_id):
     station = Station.objects.filter(user=request.user).get(id=station_id)
     months = set(
         query.date_time.month
         for query in WeatherData.objects.filter(station=station).filter(
-            date_time__year=datetime.today().year
+            date_time__year=timezone.now().year
         )
     )
     avg_temperatures_c, avg_humidity, avg_clouds, avg_windspeeds = get_average_year(
         months=months, station=station
     )
-    if (
-        any(
-            not var
-            for var in (avg_temperatures_c, avg_humidity, avg_clouds, avg_windspeeds)
-        )
-        or months == set()
-    ):
-        return data_not_found(request)
     months = [calendar.month_abbr[month] for month in months]
-    if avg_temperatures_c == [] or months == set():
-        data_not_found(request)
     data = {
         "temperatures_c": avg_temperatures_c,
         "humidity": avg_humidity,
@@ -199,16 +175,12 @@ def station_dashboard_year(request, station_id):
     return render(request, "Station/station_dashboard_year.html", {"data": data})
 
 
-def data_not_found(request):
-    pass
-
-
 def get_average_day(hours, station):
     avg_temperatures_c = [
         float(avg_temperature_c)
         for hour in hours
         for avg_temperature_c in WeatherData.objects.filter(station=station)
-        .filter(date_time__startswith=datetime.today().date())
+        .filter(date_time__startswith=timezone.now().date())
         .filter(date_time__hour=hour)
         .aggregate(Avg("temperature_c"))
         .values()
@@ -217,7 +189,7 @@ def get_average_day(hours, station):
         float(avg_hum)
         for hour in hours
         for avg_hum in WeatherData.objects.filter(station=station)
-        .filter(date_time__startswith=datetime.today().date())
+        .filter(date_time__startswith=timezone.now().date())
         .filter(date_time__hour=hour)
         .aggregate(Avg("humidity"))
         .values()
@@ -226,7 +198,7 @@ def get_average_day(hours, station):
         float(avg_clds)
         for hour in hours
         for avg_clds in WeatherData.objects.filter(station=station)
-        .filter(date_time__startswith=datetime.today().date())
+        .filter(date_time__startswith=timezone.now().date())
         .filter(date_time__hour=hour)
         .aggregate(Avg("cloud"))
         .values()
@@ -235,7 +207,7 @@ def get_average_day(hours, station):
         float(avg_wnds)
         for hour in hours
         for avg_wnds in WeatherData.objects.filter(station=station)
-        .filter(date_time__startswith=datetime.today().date())
+        .filter(date_time__startswith=timezone.now().date())
         .filter(date_time__hour=hour)
         .aggregate(Avg("wind_kph"))
         .values()
@@ -249,51 +221,87 @@ def get_average_week(one_week_ago, week_days, station):
         for week_day in week_days
         for avg_temperature_c in WeatherData.objects.filter(station=station)
         .filter(date_time__gte=one_week_ago)
-        .filter(date_time__week_day=abs(week_day - 7))
+        .filter(date_time__iso_week_day=week_day + 1)
         .aggregate(Avg("temperature_c"))
         .values()
-    ]  # abs(week_day - 7) because django stores the days from 1(sunday)-7(saturday) unlike the usual 0(monday)-6(sunday)
+    ]  # week_day + 1 because iso_week_day names week days from 1 - 7 (Mon - Sat) unlike python's 0 - 6 (Mon - Sun)
     avg_humidity = [
         float(avg_hum)
         for week_day in week_days
         for avg_hum in WeatherData.objects.filter(station=station)
         .filter(date_time__gte=one_week_ago)
-        .filter(date_time__week_day=abs(week_day - 7))
+        .filter(date_time__iso_week_day=week_day + 1)
         .aggregate(Avg("humidity"))
         .values()
-    ]  # abs(week_day - 7) because django stores the days from 1(sunday)-7(saturday) unlike the usual 0(monday)-6(sunday)
+    ]
     avg_clouds = [
         float(avg_clds)
         for week_day in week_days
         for avg_clds in WeatherData.objects.filter(station=station)
         .filter(date_time__gte=one_week_ago)
-        .filter(date_time__week_day=abs(week_day - 7))
+        .filter(date_time__iso_week_day=week_day + 1)
         .aggregate(Avg("cloud"))
         .values()
-    ]  # abs(week_day - 7) because django stores the days from 1(sunday)-7(saturday) unlike the usual 0(monday)-6(sunday)
+    ]
     avg_windspeeds = [
         float(avg_wnds)
         for week_day in week_days
         for avg_wnds in WeatherData.objects.filter(station=station)
         .filter(date_time__gte=one_week_ago)
-        .filter(date_time__week_day=abs(week_day - 7))
+        .filter(date_time__iso_week_day=week_day + 1)
         .aggregate(Avg("wind_kph"))
         .values()
-    ]  # abs(week_day - 7) because django stores the days from 1(sunday)-7(saturday) unlike the usual 0(monday)-6(sunday)
+    ]
 
     return avg_temperatures_c, avg_humidity, avg_clouds, avg_windspeeds
 
 
-def get_average_month():
-    pass
+def get_average_month(days, station):
+    avg_temperatures_c = [
+        float(avg_temperature_c)
+        for day in days
+        for avg_temperature_c in WeatherData.objects.filter(station=station)
+        .filter(date_time__month=timezone.now().month)
+        .filter(date_time__day=day)
+        .aggregate(Avg("temperature_c"))
+        .values()
+    ]
+    avg_humidity = [
+        float(avg_hum)
+        for day in days
+        for avg_hum in WeatherData.objects.filter(station=station)
+        .filter(date_time__month=timezone.now().month)
+        .filter(date_time__day=day)
+        .aggregate(Avg("humidity"))
+        .values()
+    ]
+    avg_clouds = [
+        float(avg_clds)
+        for day in days
+        for avg_clds in WeatherData.objects.filter(station=station)
+        .filter(date_time__month=timezone.now().month)
+        .filter(date_time__day=day)
+        .aggregate(Avg("cloud"))
+        .values()
+    ]
+    avg_windspeeds = [
+        float(avg_wnds)
+        for day in days
+        for avg_wnds in WeatherData.objects.filter(station=station)
+        .filter(date_time__month=timezone.now().month)
+        .filter(date_time__day=day)
+        .aggregate(Avg("wind_kph"))
+        .values()
+    ]
+    return avg_temperatures_c, avg_humidity, avg_clouds, avg_windspeeds
 
 
 def get_average_year(months, station):
     avg_temperatures_c = [
-        avg_temperature_c
+        float(avg_temperature_c)
         for month in months
         for avg_temperature_c in WeatherData.objects.filter(station=station)
-        .filter(date_time__year=datetime.today().year)
+        .filter(date_time__year=timezone.now().year)
         .filter(date_time__month=month)
         .aggregate(Avg("temperature_c"))
         .values()
@@ -302,7 +310,7 @@ def get_average_year(months, station):
         float(avg_hum)
         for month in months
         for avg_hum in WeatherData.objects.filter(station=station)
-        .filter(date_time__year=datetime.today().year)
+        .filter(date_time__year=timezone.now().year)
         .filter(date_time__month=month)
         .aggregate(Avg("humidity"))
         .values()
@@ -311,7 +319,7 @@ def get_average_year(months, station):
         float(avg_clds)
         for month in months
         for avg_clds in WeatherData.objects.filter(station=station)
-        .filter(date_time__year=datetime.today().year)
+        .filter(date_time__year=timezone.now().year)
         .filter(date_time__month=month)
         .aggregate(Avg("cloud"))
         .values()
@@ -320,10 +328,9 @@ def get_average_year(months, station):
         float(avg_wnds)
         for month in months
         for avg_wnds in WeatherData.objects.filter(station=station)
-        .filter(date_time__year=datetime.today().year)
+        .filter(date_time__year=timezone.now().year)
         .filter(date_time__month=month)
         .aggregate(Avg("wind_kph"))
         .values()
     ]
-
     return avg_temperatures_c, avg_humidity, avg_clouds, avg_windspeeds
